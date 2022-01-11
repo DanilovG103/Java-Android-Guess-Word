@@ -12,7 +12,8 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     char[] letters = "абвгдежзийклмнопрстуфхцчшщъыьэюя".toCharArray();
     String secretWord = "словосекретное";
-
+    String hiddenWord = secretWord.replaceAll(".","*");
+    String s = "";
     TextView t;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +21,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Button t1 = (Button) view;
-                for (int i = 0; i < secretWord.length(); i++) {
-                    if (secretWord.contains(t1.getText().toString())){
-                    }
+                String textBtn = String.valueOf(t1.getText());
+                if (secretWord.contains(textBtn)) {
+                    s += textBtn;
+                    String regex = "[" + "^" + s + "]";
+                    String s1 = secretWord.replaceAll(regex, "*");
+                    t1.setEnabled(false);
+                    t.setText(s1);
                 }
             }
         };
@@ -31,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         GridLayout gridLayout = new GridLayout(this);
         t = new TextView(this);
-        t.setText("***************");
+        t.setTextSize(19);
+        t.setText(hiddenWord);
         linearLayout.addView(t);
         gridLayout.setRowCount(6);
-        gridLayout.setColumnCount(6);
+        gridLayout.setColumnCount(7);
         linearLayout.addView(gridLayout);
         for (int i = 0; i < letters.length; i++) {
             Button btn = new Button(this);
